@@ -12,7 +12,7 @@ self.__precacheManifest = [
     "url": "/Lakkanna/articles/static/js/2.3db61cca.chunk.js"
   },
   {
-    "revision": "63c222c589fc8a2209a130141d684dab",
+    "revision": "18212498659e023af25991f3c414de7b",
     "url": "/Lakkanna/articles/index.html"
   }
 ];
