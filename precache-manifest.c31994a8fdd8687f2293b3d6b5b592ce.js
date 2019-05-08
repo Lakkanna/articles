@@ -1,7 +1,7 @@
 self.__precacheManifest = [
   {
-    "revision": "4bcbb087b9dac4363eaf",
-    "url": "/Lakkanna/articles/static/js/main.fa24c5f8.chunk.js"
+    "revision": "4ffb4c9abb40c9c010e4",
+    "url": "/Lakkanna/articles/static/js/main.98adcf6f.chunk.js"
   },
   {
     "revision": "06a26a2d66a020fc2aca",
@@ -12,7 +12,7 @@ self.__precacheManifest = [
     "url": "/Lakkanna/articles/static/js/2.4cbfd1a3.chunk.js"
   },
   {
-    "revision": "3056ff0dca83decf66357821b4ed750f",
+    "revision": "9f7f27adfb4242da3dbd70d8a14d11a2",
     "url": "/Lakkanna/articles/index.html"
   }
 ];
