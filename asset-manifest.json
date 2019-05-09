@@ -1,11 +1,16 @@
 {
-  "main.js": "/Lakkanna/articles/static/js/main.98adcf6f.chunk.js",
-  "main.js.map": "/Lakkanna/articles/static/js/main.98adcf6f.chunk.js.map",
-  "runtime~main.js": "/Lakkanna/articles/static/js/runtime~main.f691886f.js",
-  "runtime~main.js.map": "/Lakkanna/articles/static/js/runtime~main.f691886f.js.map",
-  "static/js/2.4cbfd1a3.chunk.js": "/Lakkanna/articles/static/js/2.4cbfd1a3.chunk.js",
-  "static/js/2.4cbfd1a3.chunk.js.map": "/Lakkanna/articles/static/js/2.4cbfd1a3.chunk.js.map",
-  "index.html": "/Lakkanna/articles/index.html",
-  "precache-manifest.c31994a8fdd8687f2293b3d6b5b592ce.js": "/Lakkanna/articles/precache-manifest.c31994a8fdd8687f2293b3d6b5b592ce.js",
-  "service-worker.js": "/Lakkanna/articles/service-worker.js"
+  "files": {
+    "main.css": "/articles/static/css/main.19393e92.chunk.css",
+    "main.js": "/articles/static/js/main.7162328d.chunk.js",
+    "main.js.map": "/articles/static/js/main.7162328d.chunk.js.map",
+    "runtime~main.js": "/articles/static/js/runtime~main.b91d1050.js",
+    "runtime~main.js.map": "/articles/static/js/runtime~main.b91d1050.js.map",
+    "static/js/2.b41502e9.chunk.js": "/articles/static/js/2.b41502e9.chunk.js",
+    "static/js/2.b41502e9.chunk.js.map": "/articles/static/js/2.b41502e9.chunk.js.map",
+    "index.html": "/articles/index.html",
+    "precache-manifest.5cf742dec0a1973139973a4d960b83c8.js": "/articles/precache-manifest.5cf742dec0a1973139973a4d960b83c8.js",
+    "service-worker.js": "/articles/service-worker.js",
+    "static/css/main.19393e92.chunk.css.map": "/articles/static/css/main.19393e92.chunk.css.map",
+    "static/media/logo.svg": "/articles/static/media/logo.5d5d9eef.svg"
+  }
 }
