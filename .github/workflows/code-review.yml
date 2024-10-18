@@ -1,0 +1,153 @@
+name: Code Review
+
+on:
+  pull_request:
+    types: [opened, synchronize]
+
+jobs:
+  review:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: "16"
+
+      - name: Install dependencies
+        run: npm install @actions/github @actions/core
+
+      - name: Run code review
+        uses: actions/github-script@v6
+        with:
+          github-token: ${{secrets.GITHUB_TOKEN}}
+          script: |
+            const core = require('@actions/core');
+
+            function analyzeDiff(diff) {
+              const issues = [];
+              const lines = diff.split("\n");
+              let currentFile = "";
+              let lineNumber = 0;
+
+              for (const line of lines) {
+                if (line.startsWith("+++")) {
+                  currentFile = line.substring(4).trim();
+                  lineNumber = 0;
+                } else if (line.startsWith("+")) {
+                  lineNumber++;
+                  const code = line.substring(1);
+
+                  // Check for console.log statements
+                  if (code.includes("console.log")) {
+                    issues.push({
+                      file: currentFile,
+                      line: lineNumber,
+                      message: "Avoid using console.log in production code",
+                    });
+                  }
+
+                  // Check for 'any' type in TypeScript
+                  if (code.includes(": any")) {
+                    issues.push({
+                      file: currentFile,
+                      line: lineNumber,
+                      message:
+                        'Avoid using the "any" type. Specify a more precise type instead',
+                    });
+                  }
+
+                  // Check for non-null assertion
+                  if (code.includes("!.") || code.endsWith("!")) {
+                    issues.push({
+                      file: currentFile,
+                      line: lineNumber,
+                      message:
+                        "Avoid using non-null assertions (!). Use optional chaining (?.) instead",
+                    });
+                  }
+
+                  // Check for useState without explicit type
+                  if (code.includes("useState(") && !code.includes("useState<")) {
+                    issues.push({
+                      file: currentFile,
+                      line: lineNumber,
+                      message: "Specify explicit type for useState",
+                    });
+                  }
+
+                  // Check for inline styles
+                  if (code.includes("style={{")) {
+                    issues.push({
+                      file: currentFile,
+                      line: lineNumber,
+                      message:
+                        "Avoid inline styles. Use styled-components or CSS modules instead",
+                    });
+                  }
+
+                  // Check for hardcoded strings that might need internationalization
+                  if (code.match(/"[A-Za-z\s]{10,}"/)) {
+                    issues.push({
+                      file: currentFile,
+                      line: lineNumber,
+                      message:
+                        "Consider using internationalization for user-facing strings",
+                    });
+                  }
+
+                  // Check for TODO comments
+                  if (code.toLowerCase().includes("todo")) {
+                    issues.push({
+                      file: currentFile,
+                      line: lineNumber,
+                      message: "TODO found. Consider creating an issue instead",
+                    });
+                  }
+                }
+              }
+
+              return issues;
+            }
+
+            async function run() {
+              try {
+                const context = github.context;
+                const octokit = github.getOctokit(process.env.GITHUB_TOKEN);
+
+                const { data: pullRequest } = await octokit.rest.pulls.get({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  pull_number: context.payload.pull_request.number,
+                });
+
+                const { data: diff } = await octokit.rest.pulls.get({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  pull_number: context.payload.pull_request.number,
+                  mediaType: { format: 'diff' },
+                });
+
+                const issues = analyzeDiff(diff);
+
+                for (const issue of issues) {
+                  await octokit.rest.pulls.createReviewComment({
+                    owner: context.repo.owner,
+                    repo: context.repo.repo,
+                    pull_number: context.payload.pull_request.number,
+                    body: issue.message,
+                    commit_id: pullRequest.head.sha,
+                    path: issue.file,
+                    line: issue.line,
+                  });
+                }
+
+                console.log(`Added ${issues.length} review comments.`);
+              } catch (error) {
+                core.setFailed(error.message);
+              }
+            }
+
+            run();
