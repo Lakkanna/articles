@@ -22,7 +22,7 @@ jobs:
       - name: Run code review
         uses: actions/github-script@v6
         with:
-          github-token: ${{secrets.GITHUB_TOKEN}}
+          github-token: ${{secrets.TOKEN_FOR_ACTIONS}}
           script: |
             const gthub = require('@actions/github');
             const actionCore = require('@actions/core');
