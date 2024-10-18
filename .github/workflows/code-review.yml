@@ -116,7 +116,7 @@ jobs:
             async function run() {
               try {
                 const context = gthub.context;
-                const octokit = gthub.getOctokit(process.env.GITHUB_TOKEN);
+                const octokit = gthub.getOctokit(actionCore.getInput("github-token"));
 
                 const { data: pullRequest } = await octokit.rest.pulls.get({
                   owner: context.repo.owner,
