@@ -134,6 +134,18 @@ jobs:
                 const issues = analyzeDiff(diff);
 
                 for (const issue of issues) {
+                  const { data: fileContent } = await octokit.rest.repos.getContent({
+                    owner: context.repo.owner,
+                    repo: context.repo.repo,
+                    path: issue.file,
+                    ref: pullRequest.head.sha,
+                  });
+
+                  const fileLines = Buffer.from(fileContent.content, 'base64').toString().split('\n');
+                  const startLine = Math.max(1, issue.line - 3);
+                  const endLine = Math.min(fileLines.length, issue.line + 3);
+                  const diffHunk = fileLines.slice(startLine - 1, endLine).join('\n');
+
                   await octokit.rest.pulls.createReviewComment({
                     owner: context.repo.owner,
                     repo: context.repo.repo,
@@ -142,6 +154,10 @@ jobs:
                     commit_id: pullRequest.head.sha,
                     path: issue.file,
                     line: issue.line,
+                    side: 'RIGHT',
+                    start_line: startLine,
+                    start_side: 'RIGHT',
+                    diff_hunk: `@@ -${startLine},${endLine - startLine + 1} +${startLine},${endLine - startLine + 1} @@\n${diffHunk}`,
                   });
                 }
 
