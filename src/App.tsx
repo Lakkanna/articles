@@ -2,7 +2,7 @@ import React from "react";
 import logo from "./logo.svg";
 import "./App.css";
 
-// TODO: remove anchor tag
+// TODO: remove anchor tag and replace with a button that opens a modal
 const App: React.FC = () => {
   return (
     <div className="App">
