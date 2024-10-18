@@ -24,8 +24,6 @@ jobs:
         with:
           github-token: ${{secrets.GITHUB_TOKEN}}
           script: |
-            const core = require('@actions/core');
-
             function analyzeDiff(diff) {
               const issues = [];
               const lines = diff.split("\n");
