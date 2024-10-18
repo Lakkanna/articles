@@ -24,6 +24,9 @@ jobs:
         with:
           github-token: ${{secrets.GITHUB_TOKEN}}
           script: |
+            const gthub = require('@actions/github');
+            const actionCore = require('@actions/core');
+
             function analyzeDiff(diff) {
               const issues = [];
               const lines = diff.split("\n");
@@ -112,8 +115,8 @@ jobs:
 
             async function run() {
               try {
-                const context = github.context;
-                const octokit = github.getOctokit(process.env.GITHUB_TOKEN);
+                const context = gthub.context;
+                const octokit = gthub.getOctokit(process.env.GITHUB_TOKEN);
 
                 const { data: pullRequest } = await octokit.rest.pulls.get({
                   owner: context.repo.owner,
@@ -144,7 +147,7 @@ jobs:
 
                 console.log(`Added ${issues.length} review comments.`);
               } catch (error) {
-                core.setFailed(error.message);
+                actionCore.setFailed(error.message);
               }
             }
 
