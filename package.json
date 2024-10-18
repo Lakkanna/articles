@@ -2,7 +2,7 @@
   "name": "articles",
   "version": "0.1.0",
   "private": true,
-   "homepage": "https://lakkanna.github.io/articles",
+  "homepage": "https://lakkanna.github.io/articles",
   "dependencies": {
     "@types/jest": "24.0.12",
     "@types/node": "12.0.0",
@@ -19,7 +19,8 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "code-review": "node scripts/code-review.js"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -37,6 +38,8 @@
     ]
   },
   "devDependencies": {
-    "gh-pages": "2.0.1"
+    "gh-pages": "2.0.1",
+    "@actions/github": "^5.0.0",
+    "@actions/core": "^1.6.0"
   }
 }
